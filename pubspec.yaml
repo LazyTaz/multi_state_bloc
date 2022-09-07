@@ -1,6 +1,6 @@
 name: multi_state_bloc
 description: multi_state_bloc allows you to easily use different states in one bloc.
-version: 0.0.1
+version: 0.0.3
 repository: https://github.com/LazyTaz/multi_state_bloc
 
 environment:

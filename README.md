@@ -1,4 +1,4 @@
-# multi_state_bloc 0.0.1
+# multi_state_bloc 0.0.3
 
 multi_state_bloc is a simple, but really powerful solution that allows you to use states of different type in one Bloc, instead of creating one Bloc for each state. It is an abstract class that extends Bloc (from **flutter_bloc**).
 
@@ -65,7 +65,6 @@ you can also filter build requests as you would have done for a single state.
     BlocBuilder<TestBloc, BaseState>
         buildWhen: (prev, next) => next is ConcreteStateA,
         builder: (context, state) {
-            var bloc = context.read<TestBloc>();
             var stateA = state as ConcreteStateA;
             
             [...]

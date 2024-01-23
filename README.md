@@ -1,26 +1,24 @@
 # multi_state_bloc 0.0.3
 
-multi_state_bloc is a simple, but really powerful solution that allows you to use states of different type in one Bloc, instead of creating one Bloc for each state. It is an abstract class that extends Bloc (from **flutter_bloc**).
+**multi_state_bloc** is a straightforward solution allowing you to manage substates easily instead of creating one bloc for each state. It is only an abstract class that extends [bloc](https://github.com/felangel/bloc).
 
 
-# Why & How ?
+## Why & How ?
 
+Each time you emit a state, the view is notified and the state is stored in the bloc and you can easily retrieve the last emitted state by looking at the *state* property of the bloc.
 
-Each time you emit a state, the view is notified and the state is stored in the Bloc. 
-What it means is that you can easily retrieve the last emitted state by looking at the *state* property of the Bloc.
+State classes will grow over time and become more and more complex (constructor, copyWith, props ...) and you could split the state class into several sub-state classes. But flutter_block can manage one state at a time. 
 
-State classes can get really big, as well as all the methods they contain (constructor, copyWith, props ...).
-Sometimes we want to split our state into several sub-states, but this can be complicated because flutter_block only allows us to manage one state at a time. 
+So if state A is issued, then state B, the overall state of the Bloc will be B and there is no way to retrieve A except by reinstantiating it or ***keeping it in memory***. 
 
-So if state A is issued, then state B, the overall state of the Bloc will be B and there is no way to get back to A except by reinstantiating it or ***keeping it in memory***. 
-
-This is what multi_state_bloc does ! It keeps in memory a reference to the states and it allows you to easily retrieve these states. In addition, as soon as a state is emitted, it is intercepted and automatically updated internally. So you don't have to worry about anything.
+This is what **multi_state_bloc** does ! It keeps in memory a reference to the states and it allows you to easily retrieve these states. In addition, as soon as a state is emitted, it is intercepted and automatically updated internally. So you don't have to worry about anything.
 
 
 ## Usage 
 
-Inherit your Bloc from `MultiStateBloc`. This the class responsible for keeping trace of your states.
+Inherit your Bloc from `MultiStateBloc`. This the class responsible for keeping your states in memory.
 
+```dart
     class Event {} 
     class BaseState {}
     
@@ -30,9 +28,14 @@ Inherit your Bloc from `MultiStateBloc`. This the class responsible for keeping 
     class TestBloc extends MultiStateBloc<Event, BaseState> { 
         TestBloc(super.initialState);
     }
+```
+
+> [!WARNING]
+> All states registered by holdState() should inherit from the same base class.
 
 Then register the *events* and *states* the Bloc will have to use during his lifetime.
 
+```dart
     class TestBloc extends MultiStateBloc<Event, BaseState> { 
         TestBloc(super.initialState) {
             on<Event>(handleTest);
@@ -41,39 +44,42 @@ Then register the *events* and *states* the Bloc will have to use during his lif
             holdState(() => ConcreteStateB());
         }
     }
+```
 
 You can now retrieve the states from anywhere in your Bloc and in your View (as soon as you get bloc's reference) !
 
+### Inside your bloc
+
+```dart
     FutureOr<void> handleTest(event, emit) async {
         var stateA = states<ConcreteStateA>();
         
         emit(stateA.copyWith(...));
     }
-### In the view :
+```
 
+### Inside your view
 
-    BlocBuilder<TestBloc, BaseState>
+```dart
+    BlocBuilder<TestBloc, BaseState>(
         builder: (context, state) {
-            var bloc = context.read<TestBloc>();
-            var stateA = bloc.states<ConcreteStateA>();
+            final bloc = context.read<TestBloc>();
+            final stateA = bloc.states<ConcreteStateA>();
             
             [...]
         }
+    )
+```
 
-you can also filter build requests as you would have done for a single state.
+### Filtering build requests
 
-    BlocBuilder<TestBloc, BaseState>
+```dart
+    BlocBuilder<TestBloc, BaseState>(
         buildWhen: (prev, next) => next is ConcreteStateA,
         builder: (context, state) {
             var stateA = state as ConcreteStateA;
             
             [...]
         }
-
-
-## Limitations
-
-* In order to be used in one Bloc, the states you registered should inherit from the same base class.
-
-
-
+    )
+```

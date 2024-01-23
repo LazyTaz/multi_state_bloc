@@ -16,7 +16,7 @@ This is what **multi_state_bloc** does ! It keeps in memory a reference to the s
 
 ## Usage 
 
-Inherit your Bloc from `MultiStateBloc`. This the class responsible for keeping your states in memory.
+Inherit your bloc from `MultiStateBloc`. This the class responsible for keeping your states in memory.
 
 ```dart
     class Event {} 
@@ -31,7 +31,7 @@ Inherit your Bloc from `MultiStateBloc`. This the class responsible for keeping 
 ```
 
 
-Then register the *events* and *states* the Bloc will have to use during his lifetime.
+Then register the *events* and *states* the bloc will have to use during his lifetime.
 
 ```dart
     class TestBloc extends MultiStateBloc<Event, BaseState> { 

@@ -48,7 +48,7 @@ Then register the *events* and *states* the Bloc will have to use during his lif
 > All states registered by holdState() should inherit from the same base class.
 
 
-### Inside your bloc
+## Retrieving state Inside your bloc
 
 ```dart
     FutureOr<void> handleTest(event, emit) async {
@@ -58,7 +58,7 @@ Then register the *events* and *states* the Bloc will have to use during his lif
     }
 ```
 
-### Inside your view
+## Retrieving state Inside your view
 
 ```dart
     BlocBuilder<TestBloc, BaseState>(
@@ -71,7 +71,7 @@ Then register the *events* and *states* the Bloc will have to use during his lif
     )
 ```
 
-### Filtering build requests
+## Filtering build requests
 
 ```dart
     BlocBuilder<TestBloc, BaseState>(

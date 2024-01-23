@@ -31,10 +31,6 @@ Inherit your Bloc from `MultiStateBloc`. This the class responsible for keeping 
 ```
 
 
-> [!WARNING]
-> All states registered by holdState() should inherit from the same base class.
-
-
 Then register the *events* and *states* the Bloc will have to use during his lifetime.
 
 ```dart
@@ -48,8 +44,8 @@ Then register the *events* and *states* the Bloc will have to use during his lif
     }
 ```
 
-
-You can now retrieve the states from anywhere in your Bloc and in your View !
+> [!WARNING]
+> All states registered by holdState() should inherit from the same base class.
 
 
 ### Inside your bloc

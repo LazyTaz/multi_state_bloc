@@ -30,8 +30,10 @@ Inherit your Bloc from `MultiStateBloc`. This the class responsible for keeping 
     }
 ```
 
+
 > [!WARNING]
 > All states registered by holdState() should inherit from the same base class.
+
 
 Then register the *events* and *states* the Bloc will have to use during his lifetime.
 
@@ -46,7 +48,9 @@ Then register the *events* and *states* the Bloc will have to use during his lif
     }
 ```
 
-You can now retrieve the states from anywhere in your Bloc and in your View (as soon as you get bloc's reference) !
+
+You can now retrieve the states from anywhere in your Bloc and in your View !
+
 
 ### Inside your bloc
 
